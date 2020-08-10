@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+  body{
+    font-family: "Arial";
+    font-size: 16px;
+    background-color: none;
+    margin: 0px;
+  }
+
+  button {
+    font-size: 16px;
+  }
+
+  button:hover {
+    cursor: pointer;
+  }
+
+  #question {
+    font-weight: bold;
+  }
+
+  .column {
+    float: left;
+    width: 50%;
+    padding-bottom: 0px;
+    padding-top: 0px;
+  }
+
+  .select {
+    width: 100%;
+    border: none;
+    background-color: #00a99d;
+    padding: 20px;
+    color: white;
+    margin: 5px
+  }
+
+  .select:hover {
+    background-color: #2EB8AE;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .buttoncontainer {
+    padding: 0 5px;
+  }
+
+  #result-heading {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 759px) {
+    body {
+      padding-left: 52.5px;
+      padding-right: 52.5px;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .column {
+      width: 100%;
+    }
+    body {
+      padding-left: 37.5px;
+      padding-right: 37.5px;
+      font-size: 14.4px
+    }
+    button {
+      font-size: 14.4px;
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    body {
+      padding-left: 60px;
+      padding-right: 60px;
+      font-size: 17.6px
+    }
+    button {
+      font-size: 17.6px;
+    }
+  }
+
+  </style>
+  <script src="jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+
+<div id="page1">
+
+  <p id="question" class="welldone">Select the steps you will take, then click submit.</p>
+
+<div class="row">
+  <div class="column">
+    <div class="buttoncontainer"><button class="select" onclick="nextQ(0)">Never</button></div>
+    <div class="buttoncontainer"><button class="select" onclick="nextQ(1)">Rarely</button></div>
+  </div>
+  <div class="column">
+    <div class="buttoncontainer"><button class="select" onclick="nextQ(2)">Sometimes</button></div>
+    <div class="buttoncontainer"><button class="select" onclick="nextQ(3)">Often</button></div>
+  </div>
+</div>
+
+</div>
+
+  <div id="page2">
+    <p id="result-heading"></p>
+    <p id="result-text" style="white-space: pre-line"></h3>
+  </div>
+
+  <script>
+
+    var score = 0;
+    var currQ = 0;
+    var headings = [
+      "1. How often do you feel unhappy because you are doing so many things alone?",
+      "2. How often do you feel you have nobody to talk to?",
+      "3. How often do you feel you cannot tolerate being so alone?",
+      "4. How often do you feel as if nobody really understands you?",
+      "5. How often do you find yourself waiting for people to call or write?",
+      "6. How often do you feel completely alone?",
+      "7. How often do you feel you are unable to reach out and communicate with those around you?",
+      "8. How often do you feel starved for company?",
+      "9. How often do you feel it is difficult for you to make friends?",
+      "10. How often do you feel shut out and excluded by others?"
+  ];
+  var results= [
+    {
+      heading: "Little to No Loneliness",
+      text: "You answered this quiz consistent with people who complain of little to no loneliness in their life at present.\n\nCongratulations for feeling connected with others in your life!",
+    },
+    {
+      heading: "Normal Loneliness",
+      text: "You answered this quiz consistent with people who are having a normal experience of loneliness. This is usually not something to be concerned about, as everyone can feel a little lonely from time to time.\n\nIt can become a problem, however, if these feelings are long-lasting and don't seem to get better on their own, even when you're with others, friends or family.",
+    },
+    {
+      heading: "Moderate Loneliness",
+      text: "You answered this quiz consistent with people who are suffering from moderate loneliness.\n\nA certain amount of loneliness is a normal part of most people's lives. But when your feelings of loneliness can become a bit overwhelming or more serious than usual - like now - it may be a sign that something isn't quite balanced in your life.\n\nYou may find that you could benefit by trying to reach out to others in your life - right now. A close friend or family member whom you trust and talk to can go a long way in helping to relieve feelings of loneliness in many people.",
+    },
+    {
+      heading: "Extreme Loneliness",
+      text: "You answered this quiz consistent with people who are suffering from extreme and severe loneliness.\n\nA certain amount of loneliness is a normal part of most people's lives. But when your feelings of loneliness can become a bit overwhelming or more serious than usual - like now - it may be a sign that something isn't quite balanced in your life.\n\nYou may find that you could benefit by trying to reach out to others in your life - right now. A close friend or family member whom you trust and talk to can go a long way in helping to relieve feelings of loneliness in many people.",
+    }
+  ]
+
+    $(function(){
+      $('#page2').hide();
+      nextQ(0);
+    });
+
+    function nextQ(num){
+
+      currQ++;
+      score+=num;
+
+      $('#page1').hide();
+
+      if (currQ <= 10){
+        $("#question").text(headings[currQ-1]);
+        $('#page1').fadeIn();
+      }
+      else{
+        var band = 0;
+        if (score > 4){band = 1};
+        if (score > 11){band = 2};
+        if (score > 19){band = 3};
+        $('#result-heading').text("Result: " + results[band].heading)
+        $('#result-text').text(results[band].text)
+        $('#page2').fadeIn();
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>

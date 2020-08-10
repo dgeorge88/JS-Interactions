@@ -1,0 +1,446 @@
+<style>
+  html {
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+
+  }
+
+  /* Tracker */
+  #outputTracker {
+    min-height: 62px;
+    margin-top: 1rem;
+    background-color: #31424B;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 1rem;
+    bottom: 10%;
+    font-size: 15px;
+  }
+
+
+  /* Modal Content */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 10%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+
+  .modal-textContent {
+    padding: 20px;
+  }
+
+  .modal-textContent h3 {
+    margin-bottom: 10px;
+    font-weight: normal;
+  }
+
+  .modal-textContent p {
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+  }
+
+  /* Modal */
+  #outputHeading {
+    text-align: left;
+    font-size: 27.72px;
+    color: #333;
+    font-family: arial, sans-serif;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  #outputCurrentAnswer {
+    /* padding: 15px; */
+    text-align: left;
+    font-size: 17.6px;
+    color: #333;
+    font-family: arial, sans-serif;
+    /* margin: 0;
+    padding: 0; */
+  }
+
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+
+    margin: auto;
+
+    padding: 0;
+    width: 80%;
+    /* Added */
+  }
+
+  .header-content {
+    width: 100%;
+    height: 60px;
+    /* Added */
+    background-color: #00A99D;
+  }
+
+  .close-button {
+    background-color: #00766e;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    float: right;
+  }
+
+  /* The Close Button */
+  .close {
+    line-height: 60px;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+  /* Email Content */
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+  }
+
+  .emailBody {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  table {
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .emailContent {
+    min-height: 300px;
+    height: 50%;
+    font-size: 2vw;
+    font-family: Arial;
+    background-color: #EAEEEE;
+  }
+
+  .emailContent>table,
+  div {
+    font-family: Arial;
+    font-size: 2vw;
+  }
+
+  tr {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+
+
+  img {
+    height: 30px;
+    width: 30px;
+  }
+</style>
+
+<!-- The Modal -->
+<div id="clueModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="header-content">
+      <div class="close-button">
+        <span class="close">&times;</span>
+      </div>
+    </div>
+    <div class="modal-textContent">
+      <h3 id="outputHeading">Modal Heading</h3>
+      <p id="outputCurrentAnswer">Some text in the Modal..</p>
+    </div>
+  </div>
+</div>
+
+<!-- Email Content -->
+<div class="flex-container">
+  <div class="emailContent">
+    <table>
+      <tr>
+        <!-- Spelling -->
+        <td>From:</td>
+        <td>
+          <p> South Trust Bank <u id="Spelling" onclick="spellError()">&#60support@southrestbank.com&#62</u></p>
+        </td>
+      </tr>
+      <tr>
+        <td>To:</td>
+        <td>
+          <p>Joe Bloggs &#60joe.bloggs@gmail.com&#62</p>
+        </td>
+      </tr>
+      <!-- Urgent -->
+      <tr>
+        <td>Subject:</td>
+        <td>
+          <span id="Urgent" onclick="urgentError()">Urgent! Unauthorised Activity</span>
+        </td>
+      </tr>
+      <!-- Attachment -->
+      <tr>
+        <td>Attachment: </td>
+        <td><u id="Attachment" onclick="attachError()">Statement.pdf </u></td>
+      </tr>
+
+    </table>
+    <hr>
+    <!-- Name -->
+    <div class="emailBody">
+      <span id="Name" onclick="nameError()">Dear Valued Customer</span>
+      <!-- Spelling & Grammar -->
+      <p>We have detected <span id="SpGr" onclick="spgrError()">unusuel adcitivety</span> on your Visa card on
+        <span id="dateToday"></span>.
+      </p>
+      <!-- AttachmentTwo -->
+      <p>Please refer to <span id="AttachmentTwo" onclick="attachError()">attached statement</span> for more details on
+        transactions in your account.</p>
+      <!-- Urgent #2-->
+      <p>If you did not make these transactions please sign into your account
+        <span id="UrgentTwo" onclick="urgentError()">
+          immediately</span> and change your password. If you do not do this you may be charged for unauthorized
+        activity.
+      </p>
+      <!-- Hyperlink -->
+      <p style="color:blue; font-weight: bold;"><u id="Hyperlink" onclick="linkError()">&#60Log into you account now
+          at
+          www.southtrustbank.com&#62</u></p>
+      <!-- Different Font -->
+      <span id="Font" style="font-family: Times new Roman;" onclick="fontError()">Once you have done this our fraud
+        department will work with you to resolve the issue.</span>
+      <!-- Spelling & Grammar Two -->
+      <p><span id="SpGrTwo" onclick="spgrError()">Sincerly</span></p>
+      <!-- Basic Information -->
+      <p><span id="Info" onclick="basicInfo()">South Trust Bank</span></p>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="outputTracker">
+    <h4 id="outputClues">You have found 0 out 8 clues.&nbsp; <h4 id="outputLives">You have 3 lives remaining.</h4>
+  </div>
+
+</div>
+</div>
+
+<img id="popup" src="./cross.png" alt="">
+
+<script src="./jquery.js"></script>
+
+<script>
+
+  //array to store clicked items:
+  var collection = [];
+  //get outputs:
+  var outputLives = document.getElementById("outputLives");
+  var outputClues = document.getElementById("outputClues")
+  //get answer container
+  var outputAnswer = document.getElementById("outputCurrentAnswer");
+  //get items
+  var spell = document.getElementById("Spelling");
+  var urgOne = document.getElementById("Urgent");
+  var urgTwo = document.getElementById("UrgentTwo");
+  var attach = document.getElementById("Attachment");
+  var attachTwo = document.getElementById("AttachmentTwo");
+  var hyper = document.getElementById("Hyperlink");
+  var font = document.getElementById("Font");
+  var basic = document.getElementById("Info");
+  var spgr = document.getElementById("SpGr");
+  var spgrTwo = document.getElementById("SpGrTwo");
+  var nameErr = document.getElementById("Name");
+  // Get the modal
+  var modal = document.getElementById("clueModal");
+  // Get the span element that closes the modal
+  var closeModal = document.getElementsByClassName("close")[0];
+  var outputHeading = document.getElementById("outputHeading")
+
+  // When the user clicks on x close the modal
+  closeModal.onclick = function () {
+    modal.style.display = "none";
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+
+  $(document).ready(function () {
+    //date:
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = dd + '/' + mm + '/' + yyyy;
+    $("#dateToday").append(" " + today)
+
+    //var to increment
+    numClicks = 3;
+    //image
+    var img = $("#popup");
+    img.hide();
+
+    //on click:
+    $(".emailContent").click(function (event) {
+      //get clicked items id:
+      var parseId = event.target.getAttribute("id");
+      if (!parseId) {
+        numClicks--;
+        img.show();
+        img.css({
+          position: "absolute",
+          top: event.pageY,
+          left: event.pageX
+        }).fadeOut("slow")
+      } else {
+        img.hide();
+      }
+
+      //get size of array
+      var numClues = collection.length;
+
+      //lives:
+      if (numClicks > 0 && numClues < 8) {
+        outputLives.innerHTML = "You have " + numClicks + " lives remaining."
+        outputClues.innerHTML = "You have " + numClues + " out of 8 clues.\&nbsp;"
+      }
+      //if 3 attempts have been made:
+      else if (numClicks < 1 || numClues === 8) {
+        //run reveal functions:
+        revealAnswers()
+        outputClues.innerHTML = "All the issues are highlighted. Click or tap on each for more information. You should look out for these in the emails you receive."
+        outputLives.innerHTML = "";
+      }
+    })
+  })
+
+
+  function clueTracker(clue) {
+    if (!collection.includes(clue)) collection.push(clue);
+  }
+
+
+  function revealAnswers() {
+    spell.style.backgroundColor = "DeepPink";
+    urgOne.style.backgroundColor = "Orange";
+    urgTwo.style.backgroundColor = "Orange";
+    nameErr.style.backgroundColor = "Turquoise";
+    attach.style.backgroundColor = "OliveDrab";
+    attachTwo.style.backgroundColor = "OliveDrab";
+    hyper.style.backgroundColor = "YellowGreen";
+    font.style.backgroundColor = "Brown";
+    basic.style.backgroundColor = "Olive";
+    spgr.style.backgroundColor = "Chocolate";
+    spgrTwo.style.backgroundColor = "Chocolate";
+  }
+
+  //Spelling:
+  function spellError() {
+    // When the user clicks on item, open the modal 
+    //change item colour
+    spell.style.backgroundColor = "DeepPink";
+    //display modal
+    modal.style.display = "block";
+    //output error heading
+    // outputHeading.style.color = "DeepPink"
+    outputHeading.innerHTML = "Wrong Spelling of Email Address";
+    //output error text
+    outputAnswer.innerHTML = "Notice the spelling of 'trust' in the email address.";
+    //send this clue to clueTracker function
+    clueTracker("spellError")
+  }
+
+  function urgentError() {
+    urgOne.style.backgroundColor = "Orange";
+    urgTwo.style.backgroundColor = "Orange";
+    outputHeading.innerHTML = "Urgency";
+    // outputHeading.style.color = "Orange"
+    outputAnswer.innerHTML = "A sense of urgency trying to get you to act without thinking.";
+    modal.style.display = "block";
+    clueTracker("urgentError")
+  }
+
+  function nameError() {
+    nameErr.style.backgroundColor = "Turquoise";
+    outputHeading.innerHTML = "Improper Address";
+    // outputHeading.style.color = "Turquoise"
+    outputAnswer.innerHTML = "A genuine email will usually address you by your full name.";
+    modal.style.display = "block";
+    clueTracker("nameError")
+  }
+
+  function attachError() {
+    attach.style.backgroundColor = "Violet";
+    attachTwo.style.backgroundColor = "Violet";
+    modal.style.display = "block";
+    outputHeading.innerHTML = "Attachments (Statement.pdf)";
+    // outputHeading.style.color = "OliveDrab";
+    outputAnswer.innerHTML = "Attachments often contain malware."
+    modal.style.display = "block";
+    clueTracker("attachError")
+
+  }
+
+  function linkError() {
+    hyper.style.backgroundColor = "Yellow";
+    modal.style.display = "block";
+    outputHeading.innerHTML = "Fake Links";
+    // outputHeading.style.color = "YellowGreen";
+    outputAnswer.innerHTML = "Hovering over the link will reveal its true location";
+    clueTracker("linkError")
+  }
+
+  function fontError() {
+    font.style.backgroundColor = "Brown";
+    modal.style.display = "block";
+    outputHeading.innerHTML = "Formating";
+    // outputHeading.style.color = "Brown";
+    outputAnswer.innerHTML = "A sudden change in font suggests copy pasting and low attention to detail.";
+    clueTracker("fontError")
+  }
+
+  function basicInfo() {
+    basic.style.backgroundColor = "olive";
+    modal.style.display = "block";
+    outputHeading.innerHTML = "Lack of Important Information";
+    // outputHeading.style.color = "olive";
+    outputAnswer.innerHTML = "Very little information about who the email is from, or contact details.";
+    clueTracker("basicInfo")
+  }
+
+  function spgrError() {
+    spgr.style.backgroundColor = "SteelBlue";
+    spgrTwo.style.backgroundColor = "SteelBlue";
+    modal.style.display = "block";
+    outputHeading.innerHTML = "Poor Spelling or Grammar";
+    // outputHeading.style.color = "chocolate";
+    outputAnswer.innerHTML = "Poor spelling and grammar is a big clue.";
+    clueTracker("spgrError")
+  }
+</script>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="docxtemplater.v3.9.0.min.js"></script>
+  <script src="jszip.min.js"></script>
+  <script src="file-saver.min.js"></script>
+  <script src="jszip-utils.js"></script>
+  <!--[if IE]>
+    <script type="text/javascript" src="jszip-utils-ie.js"></script>
+  <![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding-bottom: 10px;
+  padding-top: 0px;
+}
+
+.columnleft {
+  padding-right: 5px;
+}
+
+.columnright {
+  padding-left: 5px;
+}
+
+body{
+  font-family: "Arial";
+  background-color: none;
+  margin: 0px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+h2 {
+  text-align: center;
+  background-color: #31424b;
+  padding: 20px;
+  color: white;
+  margin-bottom: 8px
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 759px) {
+  body {
+    padding-left: 52.5px;
+    padding-right: 52.5px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .column {
+    width: 100%;
+  }
+  body {
+    padding-left: 37.5px;
+    padding-right: 37.5px;
+  }
+}
+
+@media screen and (min-width: 760px) {
+  body {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+.submit {
+  width: 100%;
+  border: none;
+  background-color: #31424b;
+  padding: 20px;
+  font-size: 18px;
+  color: white;
+  margin-bottom:4px;
+}
+
+.submit:hover {
+  background-color: #2c3b43;
+  cursor: pointer;
+}
+
+.toggle {
+  width: 100%;
+  border: none;
+  background-color: #00a99d;
+  padding: 20px;
+  font-size: 18px;
+  color: white;
+  margin-bottom:4px;
+}
+
+.toggle:hover {
+  background-color: #2eb8ae;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #006472;
+}
+
+.selected:hover {
+  background-color: #007383;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  font-size: 17.6px;
+  font-family: "Arial"
+}
+
+#qheading{
+  background-color: #00a99d;
+  color: white;
+  margin-bottom: 0px;
+  padding: 10px;
+}
+
+.buttoncontainer{
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+.buttoncontainer button{
+    display: inline-block;
+    width: 30%;
+    border: none;
+    background-color: #31424b;
+    padding: 20px;
+    font-size: 18px;
+    color: white;
+    margin-bottom:4px;
+}
+
+.buttoncontainer button:hover {
+  background-color: #2c3b43
+}
+
+#btn1{
+    float:left;
+}
+#btn3{
+    float:right;
+}
+
+.welldone {
+  font-size: 16px;
+}
+
+#btn1, #btn2, #btn3  {
+  margin-top: 16px
+}
+
+#btn1:disabled, #btn2:disabled, #btn3:disabled  {
+  opacity: 0.3
+}
+
+.hiddenfinish {
+  display: none !important;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div id="page1">
+
+  <h3 class="welldone">Select the steps you will take, then click submit.</h3>
+
+<div class="row">
+  <div class="column columnleft">
+    <h2>Help Yourself</h2>
+    <div><button class="toggle">Exercise</button></div>
+    <div><button class="toggle">Eat well</button></div>
+    <div><button class="toggle">Make connections</button></div>
+    <div><button class="toggle">Be positive</button></div>
+    <div><button class="toggle">Ask for help</button></div>
+  </div>
+  <div class="column columnright">
+    <h2>Help Others</h2>
+    <div><button class="toggle">Ask the person if they are ok</button></div>
+    <div><button class="toggle">Include the person in conversation</button></div>
+    <div><button class="toggle">Listen to the person</button></div>
+    <div><button class="toggle">Encourage the person to interact with others</button></div>
+  </div>
+</div>
+
+<div><div><button class="submit" onclick="submit1()">Submit</button></div></div>
+
+</div>
+
+  <div id="page2">
+    <p class="welldone">Well done. Now use the box below to state how and when you will achieve your next steps.</p>
+    <h3 class="welldone">Click Finish to download your next steps.</h3>
+    <h3 id="qheading">Exercise</h3>
+    <div><textarea id="plan" style="resize: none;" rows="12"></textarea></div>
+    <div class='buttoncontainer'>
+        <button id="btn1" onclick="changePage(-1)">Previous</button>
+        <button id="btn2" class="hiddenfinish" onclick="download()">Finish</button>
+        <button id="btn3" onclick="changePage(1)">Next</button>
+    </div>
+  </div>
+
+  <script>
+
+    var sel = [false,false,false,false,false,false,false,false,false]
+    var text = ["","","","","","","","",""];
+    var headings = ["Exercise","Eat well","Make connections","Be positive","Ask for help","Ask the person if they are ok","Include the person in conversation","Listen to the person","Encourage the person to interact with others"];
+    var selected = [];
+    var currTextBox = 0;
+
+    $(function(){
+      $('#page2').hide();
+    });
+
+    $( ".toggle" ).each(function(index) {
+      $(this).on("click", function(){
+        $(this).toggleClass("selected")
+        sel[index] = !sel[index]
+      });
+    });
+
+    function submit1(){
+
+      selected = []
+
+      for (var i = 0; i < sel.length; i++){
+        if (sel[i]){selected.push(i)}
+      }
+
+      if(selected.length){
+        $('#page1').hide();
+        $('#page2').show();
+        changePage(0)
+      }
+
+    }
+
+    function changePage(amount){
+      saveBox();
+      currTextBox+=amount;
+      setTextBox();
+    }
+
+    function download(){
+      saveBox();
+      loadFile("socialisolationmyplan.docx",function(error,content){
+          if (error) { throw error };
+          var zip = new JSZip(content);
+          var doc=new Docxtemplater().loadZip(zip)
+          doc.setData({
+              var_plan1: text[0],
+              var_plan2: text[1],
+              var_plan3: text[2],
+              var_plan4: text[3],
+              var_plan5: text[4],
+              var_plan6: text[5],
+              var_plan7: text[6],
+              var_plan8: text[7],
+              var_plan9: text[8],
+          });
+          try {
+              // render the document (replace all occurences)
+              doc.render()
+          }
+          catch (error) {
+              var e = {
+                  message: error.message,
+                  name: error.name,
+                  stack: error.stack,
+                  properties: error.properties,
+              }
+              console.log(JSON.stringify({error: e}));
+              // The error thrown here contains additional information when logged with JSON.stringify (it contains a property object).
+              throw error;
+          }
+          var out=doc.getZip().generate({
+              type:"blob",
+              mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          }) //Output the document using Data-URI
+          saveAs(out,"SocialIsolation-MyPlan.docx")
+      })
+
+    }
+
+    function loadFile(url,callback){
+        JSZipUtils.getBinaryContent(url,callback);
+    }
+
+    function saveBox(){
+      text[selected[currTextBox]] = $("#plan").val();
+    }
+
+    function setTextBox(){
+      $("#qheading").text(headings[selected[currTextBox]])
+      $("#plan").val(text[selected[currTextBox]]);
+
+      if (currTextBox === 0){
+        $( "#btn1" ).prop('disabled', true);
+      }
+      else{
+        $( "#btn1" ).prop('disabled', false);
+      }
+
+      if (currTextBox === selected.length-1){
+        $( "#btn3" ).prop('disabled', true);
+        $("#btn2").removeClass("hiddenfinish");
+      }
+      else{
+        $( "#btn3" ).prop('disabled', false);
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
